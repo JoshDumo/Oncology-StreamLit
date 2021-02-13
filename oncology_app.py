@@ -53,6 +53,7 @@ def load_preprocess(upload_file):
 
   return im1, im1_tensor
 
+
 model = tf.keras.models.load_model('model4.h5')
 #model.summary()
 
@@ -67,7 +68,8 @@ def interpolate_images(baseline,
   delta = input_x - baseline_x
   images = baseline_x +  alphas_x * delta
   return images
- 
+
+@st.cache 
 def compute_gradients(images, target_class_idx):
   with tf.GradientTape() as tape:
     tape.watch(images)
@@ -83,7 +85,7 @@ def integral_approximation(gradients):
   return integrated_gradients
 
 	
-@tf.function
+#@tf.function
 def integrated_gradients(baseline,
                          image,
                          target_class_idx,
